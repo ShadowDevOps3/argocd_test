@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: homarr
+  name: homarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homarr 
+  template:
+    metadata:
+      labels:
+        app: homarr
+    spec:
+      containers:
+      - image: ghcr.io/ajnart/homarr:latest
+        name: homarr
+        ports:
+        - containerPort: 7575
+--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: homarr-service 
+spec: 
+  selector: 
+    app: homarr
+  ports: 
+    - protocol: TCP 
+      port: 7575 
+      targetPort: 7575 
+      nodePort: 30575 
+  type: NodePort 
